@@ -11,7 +11,7 @@ This repo has:
 - **fused add + RMSNorm**: `residual += x; x = rmsnorm(residual) * w`, done in one kernel, in place, same semantics as `flashinfer.norm.fused_add_rmsnorm`
 - a correctness check, a benchmark, and a small script that counts how many kernels each implementation launches
 
-Everything below was measured on a free Colab **Tesla T4** (sm_75, 40 SMs, 4 MB L2), torch 2.11 / CUDA 13.0, FlashInfer 0.7.1, fp16. The full Colab logs are in `results/`.
+Everything below was measured on a free Colab **Tesla T4** (sm_75, 40 SMs, 4 MB L2), torch 2.11 / CUDA 13.0, FlashInfer 0.7.1, fp16. Raw logs and CSVs are in `results/`.
 
 ## The one idea this whole thing rests on
 
@@ -154,7 +154,7 @@ ops.py                     every implementation behind one interface
 check_correctness.py
 bench.py
 count_kernels.py
-results/                   full logs from both Colab runs
+results/                   logs, CSVs, env info and generated PTX from the Colab runs
 ```
 
 ## Things I'd do next

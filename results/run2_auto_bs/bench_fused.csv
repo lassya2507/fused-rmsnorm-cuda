@@ -1,0 +1,91 @@
+op,impl,tokens,hidden,us,gbs,pct_of_copy
+fused,torch eager,1,2048,24.42,0.8,0.3
+fused,torch compile,1,2048,4.85,4.2,1.7
+fused,flashinfer,1,2048,5.26,3.9,1.6
+fused,unfused: add + mine v1 (auto bs),1,2048,6.75,3.0,1.2
+fused,mine fused v1 (auto bs),1,2048,4.99,4.1,1.7
+fused,torch eager,16,2048,30.46,8.7,3.6
+fused,torch compile,16,2048,5.92,45.0,18.5
+fused,flashinfer,16,2048,5.79,46.0,18.9
+fused,unfused: add + mine v1 (auto bs),16,2048,7.84,34.0,14.0
+fused,mine fused v1 (auto bs),16,2048,5.6,47.5,19.6
+fused,torch eager,128,2048,44.53,47.2,19.4
+fused,torch compile,128,2048,12.11,173.5,71.4
+fused,flashinfer,128,2048,12.16,172.8,71.1
+fused,unfused: add + mine v1 (auto bs),128,2048,14.56,144.3,59.4
+fused,mine fused v1 (auto bs),128,2048,11.89,176.8,72.7
+fused,torch eager,1024,2048,395.26,42.5,17.5
+fused,torch compile,1024,2048,75.3,222.9,91.7
+fused,flashinfer,1024,2048,75.25,223.0,91.7
+fused,unfused: add + mine v1 (auto bs),1024,2048,92.69,181.1,74.5
+fused,mine fused v1 (auto bs),1024,2048,75.23,223.1,91.7
+fused,torch eager,4096,2048,1523.95,44.0,18.1
+fused,torch compile,4096,2048,290.82,230.8,94.9
+fused,flashinfer,4096,2048,288.77,232.4,95.6
+fused,unfused: add + mine v1 (auto bs),4096,2048,351.66,190.8,78.5
+fused,mine fused v1 (auto bs),4096,2048,290.5,231.0,95.0
+fused,torch eager,16384,2048,6003.81,44.7,18.4
+fused,torch compile,16384,2048,1153.6,232.7,95.7
+fused,flashinfer,16384,2048,1138.43,235.8,97.0
+fused,unfused: add + mine v1 (auto bs),16384,2048,1376.26,195.1,80.2
+fused,mine fused v1 (auto bs),16384,2048,1146.96,234.0,96.3
+fused,torch eager,1,4096,24.74,1.7,0.7
+fused,torch compile,1,4096,6.11,6.7,2.8
+fused,flashinfer,1,4096,5.86,7.0,2.9
+fused,unfused: add + mine v1 (auto bs),1,4096,7.36,5.6,2.3
+fused,mine fused v1 (auto bs),1,4096,5.63,7.3,3.0
+fused,torch eager,16,4096,35.22,15.1,6.2
+fused,torch compile,16,4096,6.62,80.4,33.1
+fused,flashinfer,16,4096,6.98,76.3,31.4
+fused,unfused: add + mine v1 (auto bs),16,4096,9.42,56.5,23.2
+fused,mine fused v1 (auto bs),16,4096,6.77,78.7,32.4
+fused,torch eager,128,4096,70.24,59.8,24.6
+fused,torch compile,128,4096,21.68,193.8,79.7
+fused,flashinfer,128,4096,22.46,187.1,76.9
+fused,unfused: add + mine v1 (auto bs),128,4096,23.28,180.5,74.2
+fused,mine fused v1 (auto bs),128,4096,22.18,189.5,77.9
+fused,torch eager,1024,4096,773.34,43.4,17.9
+fused,torch compile,1024,4096,147.76,227.1,93.4
+fused,flashinfer,1024,4096,145.41,230.8,94.9
+fused,unfused: add + mine v1 (auto bs),1024,4096,179.07,187.4,77.1
+fused,mine fused v1 (auto bs),1024,4096,146.91,228.5,94.0
+fused,torch eager,4096,4096,3019.14,44.5,18.3
+fused,torch compile,4096,4096,577.95,232.2,95.5
+fused,flashinfer,4096,4096,567.81,236.4,97.2
+fused,unfused: add + mine v1 (auto bs),4096,4096,695.31,193.0,79.4
+fused,mine fused v1 (auto bs),4096,4096,573.44,234.1,96.3
+fused,torch eager,16384,4096,11959.38,44.9,18.5
+fused,torch compile,16384,4096,2281.47,235.3,96.8
+fused,flashinfer,16384,4096,2230.18,240.7,99.0
+fused,unfused: add + mine v1 (auto bs),16384,4096,2734.46,196.3,80.8
+fused,mine fused v1 (auto bs),16384,4096,2264.35,237.1,97.5
+fused,torch eager,1,8192,25.97,3.2,1.3
+fused,torch compile,1,8192,6.14,13.3,5.5
+fused,flashinfer,1,8192,6.64,12.3,5.1
+fused,unfused: add + mine v1 (auto bs),1,8192,8.19,10.0,4.1
+fused,mine fused v1 (auto bs),1,8192,6.16,13.3,5.5
+fused,torch eager,16,8192,34.13,31.2,12.8
+fused,torch compile,16,8192,9.82,108.4,44.6
+fused,flashinfer,16,8192,9.39,113.4,46.6
+fused,unfused: add + mine v1 (auto bs),16,8192,12.19,87.3,35.9
+fused,mine fused v1 (auto bs),16,8192,8.96,118.9,48.9
+fused,torch eager,128,8192,190.38,44.1,18.2
+fused,torch compile,128,8192,38.91,216.0,88.8
+fused,flashinfer,128,8192,39.1,214.9,88.4
+fused,unfused: add + mine v1 (auto bs),128,8192,42.56,197.5,81.2
+fused,mine fused v1 (auto bs),128,8192,38.91,216.0,88.8
+fused,torch eager,1024,8192,1521.46,44.1,18.1
+fused,torch compile,1024,8192,290.3,231.2,95.1
+fused,flashinfer,1024,8192,285.25,235.3,96.8
+fused,unfused: add + mine v1 (auto bs),1024,8192,351.34,191.1,78.6
+fused,mine fused v1 (auto bs),1024,8192,287.63,233.4,96.0
+fused,torch eager,4096,8192,5985.7,44.8,18.4
+fused,torch compile,4096,8192,1151.89,233.1,95.9
+fused,flashinfer,4096,8192,1120.93,239.5,98.5
+fused,unfused: add + mine v1 (auto bs),4096,8192,1378.05,194.8,80.1
+fused,mine fused v1 (auto bs),4096,8192,1135.18,236.5,97.3
+fused,torch eager,16384,8192,23830.45,45.1,18.5
+fused,torch compile,16384,8192,4559.12,235.5,96.9
+fused,flashinfer,16384,8192,4462.59,240.6,99.0
+fused,unfused: add + mine v1 (auto bs),16384,8192,5469.23,196.3,80.8
+fused,mine fused v1 (auto bs),16384,8192,4509.7,238.1,97.9
