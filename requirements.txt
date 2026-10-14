@@ -1,0 +1,3 @@
+torch
+ninja
+# optional, for the comparison: flashinfer-python

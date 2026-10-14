@@ -1,0 +1,282 @@
+Wed Oct 14 04:15:10 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   47C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 183.4/183.4 kB 16.5 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.3/67.3 MB 12.4 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 100.1 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 382.2/382.2 kB 37.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 22.6/22.6 MB 70.3 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 81.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 106.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 55.5 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 MB 9.3 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 85.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 113.6 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 92.0/92.0 MB 9.0 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+numba-cuda 0.28.2 requires cuda-core<1.0.0,>=0.5.1, but you have cuda-core 1.2.1 which is incompatible.
+2.11.0+cu130 13.0 True
+/content/fused-rmsnorm-cuda
+2026-10-14 04:17:08,454 - INFO - core.py:594 - flashinfer.jit: Building JIT module norm; this can take several minutes on first use.
+1120 checks, 0 failed
+  fused_add_rmsnorm  flashinfer       worst max_abs_err=3.12e-02  ok
+  fused_add_rmsnorm  mine fused v1    worst max_abs_err=1.56e-02  ok
+  rmsnorm            flashinfer       worst max_abs_err=1.56e-02  ok
+  rmsnorm            mine v0          worst max_abs_err=3.12e-02  ok
+  rmsnorm            mine v1          worst max_abs_err=3.12e-02  ok
+gpu: Tesla T4 (sm_75, 40 SMs, L2 4 MB)
+torch: 2.11.0+cu130, cuda: 13.0
+flashinfer: 0.7.1
+measured copy bandwidth: 243 GB/s  (spec sheet ~320 GB/s)
+  swept 1 x 2048
+  swept 16 x 2048
+  swept 128 x 2048
+  swept 1024 x 2048
+  swept 4096 x 2048
+  swept 16384 x 2048
+  swept 1 x 4096
+  swept 16 x 4096
+  swept 128 x 4096
+  swept 1024 x 4096
+  swept 4096 x 4096
+  swept 16384 x 4096
+  swept 1 x 8192
+  swept 16 x 8192
+  swept 128 x 8192
+  swept 1024 x 8192
+  swept 4096 x 8192
+  swept 16384 x 8192
+
+### block-size sweep, my rmsnorm v1 kernel, latency in us (lower is better)
+
+| tokens x hidden | bs=64 | bs=128 | bs=256 | bs=512 | bs=1024 |
+|---|---|---|---|---|---|
+| 1 x 2048 | 8.7 | 6.1 | 5.2 | 5.3 | 5.2 |
+| 16 x 2048 | 7.7 | 6.1 | 5.2 | 5.4 | 5.4 |
+| 128 x 2048 | 9.9 | 8.4 | 8.4 | 9.9 | 10.8 |
+| 1024 x 2048 | 45.1 | 39.1 | 38.9 | 38.9 | 45.1 |
+| 4096 x 2048 | 180.2 | 150.2 | 143.4 | 142.1 | 165.9 |
+| 16384 x 2048 | 715.4 | 585.9 | 551.9 | 548.9 | 675.9 |
+| 1 x 4096 | 10.7 | 7.9 | 6.2 | 5.5 | 5.6 |
+| 16 x 4096 | 10.7 | 8.1 | 6.4 | 6.3 | 6.4 |
+| 128 x 4096 | 14.3 | 12.3 | 12.2 | 14.1 | 14.1 |
+| 1024 x 4096 | 104.5 | 92.2 | 75.3 | 73.0 | 73.5 |
+| 4096 x 4096 | 412.4 | 365.6 | 289.7 | 277.3 | 277.9 |
+| 16384 x 4096 | 1640.5 | 1450.5 | 1140.3 | 1089.9 | 1087.7 |
+| 1 x 8192 | 17.4 | 10.9 | 8.2 | 6.4 | 6.1 |
+| 16 x 8192 | 17.3 | 11.8 | 8.4 | 7.5 | 7.4 |
+| 128 x 8192 | 24.0 | 21.7 | 22.7 | 22.8 | 22.0 |
+| 1024 x 8192 | 211.6 | 207.0 | 183.1 | 144.9 | 143.4 |
+| 4096 x 8192 | 834.8 | 824.2 | 736.7 | 565.2 | 553.0 |
+| 16384 x 8192 | 3284.8 | 3270.6 | 2937.2 | 2234.0 | 2179.3 |
+
+### block-size sweep, my fused v1 kernel, latency in us (lower is better)
+
+| tokens x hidden | bs=64 | bs=128 | bs=256 | bs=512 | bs=1024 |
+|---|---|---|---|---|---|
+| 1 x 2048 | 8.3 | 6.1 | 5.5 | 5.6 | 5.6 |
+| 16 x 2048 | 8.1 | 6.2 | 5.9 | 6.0 | 6.1 |
+| 128 x 2048 | 13.0 | 12.3 | 12.2 | 13.8 | 13.8 |
+| 1024 x 2048 | 76.9 | 75.8 | 75.2 | 72.3 | 73.7 |
+| 4096 x 2048 | 307.2 | 291.6 | 290.8 | 279.2 | 278.5 |
+| 16384 x 2048 | 1219.7 | 1164.8 | 1151.8 | 1118.3 | 1093.1 |
+| 1 x 4096 | 11.1 | 8.2 | 6.4 | 5.8 | 6.0 |
+| 16 x 4096 | 12.0 | 8.4 | 7.4 | 7.0 | 7.1 |
+| 128 x 4096 | 21.2 | 20.1 | 19.2 | 22.4 | 21.2 |
+| 1024 x 4096 | 174.1 | 153.9 | 147.5 | 147.4 | 141.4 |
+| 4096 x 4096 | 694.4 | 607.2 | 579.4 | 571.5 | 553.5 |
+| 16384 x 4096 | 2773.0 | 2415.1 | 2296.0 | 2269.3 | 2185.2 |
+| 1 x 8192 | 18.4 | 11.8 | 8.5 | 7.0 | 6.5 |
+| 16 x 8192 | 19.2 | 12.8 | 10.2 | 9.3 | 9.2 |
+| 128 x 8192 | 39.0 | 35.5 | 36.9 | 39.2 | 39.1 |
+| 1024 x 8192 | 358.7 | 352.3 | 302.5 | 289.6 | 288.8 |
+| 4096 x 8192 | 1433.6 | 1405.0 | 1215.4 | 1153.4 | 1138.5 |
+| 16384 x 8192 | 5705.0 | 5576.2 | 4831.2 | 4574.1 | 4509.7 |
+gpu: Tesla T4 (sm_75, 40 SMs, L2 4 MB)
+torch: 2.11.0+cu130, cuda: 13.0
+flashinfer: 0.7.1
+measured copy bandwidth: 243 GB/s  (spec sheet ~320 GB/s)
+  rmsnorm: 1 x 2048 done
+  rmsnorm: 16 x 2048 done
+  rmsnorm: 128 x 2048 done
+  rmsnorm: 1024 x 2048 done
+  rmsnorm: 4096 x 2048 done
+  rmsnorm: 16384 x 2048 done
+  rmsnorm: 1 x 4096 done
+  rmsnorm: 16 x 4096 done
+  rmsnorm: 128 x 4096 done
+  rmsnorm: 1024 x 4096 done
+  rmsnorm: 4096 x 4096 done
+  rmsnorm: 16384 x 4096 done
+  rmsnorm: 1 x 8192 done
+  rmsnorm: 16 x 8192 done
+  rmsnorm: 128 x 8192 done
+  rmsnorm: 1024 x 8192 done
+  rmsnorm: 4096 x 8192 done
+  rmsnorm: 16384 x 8192 done
+  fused: 1 x 2048 done
+  fused: 16 x 2048 done
+  fused: 128 x 2048 done
+  fused: 1024 x 2048 done
+  fused: 4096 x 2048 done
+  fused: 16384 x 2048 done
+  fused: 1 x 4096 done
+  fused: 16 x 4096 done
+  fused: 128 x 4096 done
+  fused: 1024 x 4096 done
+  fused: 4096 x 4096 done
+  fused: 16384 x 4096 done
+  fused: 1 x 8192 done
+  fused: 16 x 8192 done
+  fused: 128 x 8192 done
+  fused: 1024 x 8192 done
+  fused: 4096 x 8192 done
+  fused: 16384 x 8192 done
+
+### rmsnorm: latency in us
+
+| tokens x hidden | torch eager | torch compile | F.rms_norm | flashinfer | mine v0 (bs=256) | mine v1 (bs=256) |
+|---|---|---|---|---|---|---|
+| 1 x 2048 | 28.8 | 8.4 | 10.5 | 5.7 | 10.4 | 5.4 |
+| 16 x 2048 | 28.7 | 5.7 | 8.2 | 5.5 | 10.5 | 5.3 |
+| 128 x 2048 | 39.7 | 8.8 | 9.5 | 8.5 | 12.4 | 8.5 |
+| 1024 x 2048 | 341.3 | 39.4 | 40.6 | 38.9 | 51.3 | 38.9 |
+| 4096 x 2048 | 1315.9 | 145.4 | 146.2 | 145.5 | 176.1 | 143.4 |
+| 16384 x 2048 | 5172.6 | 561.1 | 564.1 | 556.5 | 717.6 | 550.9 |
+| 1 x 4096 | 23.2 | 5.7 | 10.4 | 5.7 | 16.0 | 6.1 |
+| 16 x 4096 | 32.6 | 6.1 | 10.8 | 6.5 | 16.4 | 6.4 |
+| 128 x 4096 | 63.2 | 14.3 | 14.3 | 14.3 | 19.6 | 12.2 |
+| 1024 x 4096 | 666.7 | 74.5 | 95.1 | 73.7 | 98.2 | 75.2 |
+| 4096 x 4096 | 2600.9 | 280.9 | 375.7 | 278.5 | 385.0 | 289.0 |
+| 16384 x 4096 | 10304.1 | 1095.0 | 1500.0 | 1091.6 | 1625.0 | 1135.0 |
+| 1 x 8192 | 24.6 | 6.7 | 16.9 | 6.1 | 27.0 | 8.2 |
+| 16 x 8192 | 30.7 | 7.4 | 17.3 | 7.7 | 27.0 | 8.5 |
+| 128 x 8192 | 162.4 | 22.7 | 23.8 | 22.4 | 34.8 | 22.5 |
+| 1024 x 8192 | 1312.8 | 147.5 | 208.7 | 142.7 | 233.5 | 182.8 |
+| 4096 x 8192 | 5160.9 | 571.4 | 818.0 | 550.7 | 951.8 | 732.6 |
+| 16384 x 8192 | 20559.7 | 2264.6 | 3227.7 | 2157.9 | 4030.1 | 2934.5 |
+
+### rmsnorm: effective bandwidth, % of measured copy bandwidth
+
+| tokens x hidden | torch eager | torch compile | F.rms_norm | flashinfer | mine v0 (bs=256) | mine v1 (bs=256) |
+|---|---|---|---|---|---|---|
+| 1 x 2048 | 0% | 1% | 0% | 1% | 0% | 1% |
+| 16 x 2048 | 2% | 10% | 7% | 10% | 5% | 10% |
+| 128 x 2048 | 11% | 49% | 46% | 51% | 35% | 51% |
+| 1024 x 2048 | 10% | 88% | 85% | 89% | 67% | 89% |
+| 4096 x 2048 | 10% | 95% | 94% | 95% | 78% | 96% |
+| 16384 x 2048 | 11% | 98% | 98% | 99% | 77% | 100% |
+| 1 x 4096 | 0% | 2% | 1% | 2% | 1% | 2% |
+| 16 x 4096 | 3% | 18% | 10% | 17% | 7% | 18% |
+| 128 x 4096 | 14% | 61% | 60% | 60% | 44% | 71% |
+| 1024 x 4096 | 10% | 93% | 73% | 94% | 70% | 92% |
+| 4096 x 4096 | 11% | 98% | 74% | 99% | 72% | 96% |
+| 16384 x 4096 | 11% | 101% | 74% | 101% | 68% | 97% |
+| 1 x 8192 | 1% | 3% | 1% | 3% | 1% | 2% |
+| 16 x 8192 | 7% | 30% | 13% | 29% | 8% | 26% |
+| 128 x 8192 | 11% | 76% | 73% | 77% | 50% | 77% |
+| 1024 x 8192 | 10% | 94% | 66% | 97% | 59% | 76% |
+| 4096 x 8192 | 11% | 97% | 68% | 100% | 58% | 75% |
+| 16384 x 8192 | 11% | 98% | 68% | 102% | 55% | 75% |
+
+### fused: latency in us
+
+| tokens x hidden | torch eager | torch compile | flashinfer | mine fused v1 (bs=256) |
+|---|---|---|---|---|
+| 1 x 2048 | 24.6 | 5.2 | 5.8 | 5.7 |
+| 16 x 2048 | 30.9 | 6.2 | 6.1 | 6.0 |
+| 128 x 2048 | 44.9 | 12.3 | 12.3 | 12.1 |
+| 1024 x 2048 | 395.6 | 75.5 | 75.5 | 75.6 |
+| 4096 x 2048 | 1521.5 | 290.4 | 287.1 | 289.3 |
+| 16384 x 2048 | 5986.8 | 1145.5 | 1130.6 | 1139.7 |
+| 1 x 4096 | 24.8 | 5.6 | 6.1 | 6.6 |
+| 16 x 4096 | 36.0 | 7.1 | 7.0 | 7.3 |
+| 128 x 4096 | 70.5 | 22.4 | 22.5 | 19.2 |
+| 1024 x 4096 | 772.3 | 147.5 | 145.4 | 147.5 |
+| 4096 x 4096 | 3012.6 | 576.0 | 565.2 | 581.5 |
+| 16384 x 4096 | 11938.6 | 2263.0 | 2211.8 | 2290.4 |
+| 1 x 8192 | 26.3 | 8.2 | 7.0 | 8.6 |
+| 16 x 8192 | 34.1 | 9.5 | 9.8 | 10.2 |
+| 128 x 8192 | 190.6 | 39.4 | 39.7 | 37.9 |
+| 1024 x 8192 | 1517.7 | 288.8 | 284.3 | 302.4 |
+| 4096 x 8192 | 5976.1 | 1143.8 | 1114.0 | 1201.7 |
+| 16384 x 8192 | 23835.6 | 4523.1 | 4402.4 | 4798.9 |
+
+### fused: effective bandwidth, % of measured copy bandwidth
+
+| tokens x hidden | torch eager | torch compile | flashinfer | mine fused v1 (bs=256) |
+|---|---|---|---|---|
+| 1 x 2048 | 0% | 2% | 1% | 2% |
+| 16 x 2048 | 4% | 18% | 18% | 18% |
+| 128 x 2048 | 19% | 70% | 70% | 71% |
+| 1024 x 2048 | 17% | 91% | 91% | 91% |
+| 4096 x 2048 | 18% | 95% | 96% | 95% |
+| 16384 x 2048 | 18% | 96% | 98% | 97% |
+| 1 x 4096 | 1% | 3% | 3% | 2% |
+| 16 x 4096 | 6% | 31% | 31% | 30% |
+| 128 x 4096 | 24% | 77% | 77% | 90% |
+| 1024 x 4096 | 18% | 94% | 95% | 94% |
+| 4096 x 4096 | 18% | 96% | 98% | 95% |
+| 16384 x 4096 | 18% | 98% | 100% | 96% |
+| 1 x 8192 | 1% | 4% | 5% | 4% |
+| 16 x 8192 | 13% | 46% | 45% | 43% |
+| 128 x 8192 | 18% | 88% | 87% | 91% |
+| 1024 x 8192 | 18% | 96% | 97% | 91% |
+| 4096 x 8192 | 18% | 96% | 99% | 92% |
+| 16384 x 8192 | 18% | 98% | 100% | 92% |
+shape 1024 x 4096, fp16
+
+/usr/local/lib/python3.13/dist-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+rmsnorm  | torch eager            | 8 kernel(s)
+         |   void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{la
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::pow_tensor_scalar_kernel_
+         |   void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::rsqrt_kernel_cuda(at::TensorIteratorBase&)::{lam
+         |   void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::float16_copy_kernel_cuda(at::TensorIteratorBase&
+         |   void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::
+rmsnorm  | torch compile          | 1 kernel(s)
+         |   triton_red_fused__to_copy_add_mean_mul_pow_rsqrt_0
+rmsnorm  | F.rms_norm             | 1 kernel(s)
+         |   void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::Half, float, true>(int, float, c10::
+rmsnorm  | flashinfer             | 1 kernel(s)
+         |   void flashinfer::norm::RMSNormKernel<8u, __half>(__half*, __half*, __half*, unsigned int, unsigned int, unsign
+rmsnorm  | mine v0 (bs=256)       | 1 kernel(s)
+         |   void rmsnorm_v0_kernel<__half>(__half const*, __half const*, __half*, int, float)
+rmsnorm  | mine v1 (bs=256)       | 1 kernel(s)
+         |   void rmsnorm_v1_kernel<__half>(__half const*, __half const*, __half*, int, float)
+fused    | torch eager            | 9 kernel(s)
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3u
+         |   void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{la
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::pow_tensor_scalar_kernel_
+         |   void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::rsqrt_kernel_cuda(at::TensorIteratorBase&)::{lam
+         |   void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float
+         |   void at::native::vectorized_elementwise_kernel<4, at::native::float16_copy_kernel_cuda(at::TensorIteratorBase&
+         |   void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::
+fused    | torch compile          | 1 kernel(s)
+         |   triton_red_fused__to_copy_add_mean_mul_pow_rsqrt_0
+fused    | flashinfer             | 1 kernel(s)
+         |   void flashinfer::norm::FusedAddRMSNormKernel<8u, __half>(__half*, __half*, __half*, unsigned int, unsigned int
+fused    | mine fused v1 (bs=256) | 1 kernel(s)
+         |   void fused_add_rmsnorm_v1_kernel<__half>(__half*, __half*, __half const*, int, float)
